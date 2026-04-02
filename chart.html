@@ -1,79 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Implementando o Char.JS</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body style="display: flex; justify-content: center;">
-    <div style="position: relative; height:40vh; width:40vw;">
-        <!-- quadro branco para renderizar o grafico -->
-        <canvas id="myChart"></canvas>
-    </div>
-    <div style="position: relative; height:40vh; width:40vw">
-        <!-- quadro branco para renderizar o grafico -->
-        <canvas id="myChart2"></canvas>
+<body style="margin:0;background-color:#d0e8ff;font-family:Arial; color: #36a2eb;">
+    <h1 style="display:flex;justify-content:center;align-items:center;">Dashboard de Temperatura e Umidade</h1>
+    
+    <div style="background-color:#d6f2fa;padding:20px;display:flex;gap:40px;justify-content:center;align-items:center;height:78vh;">
+        <div style="width:500px;">
+            <canvas id="myChart"></canvas>
+        </div>
+        <div style="width:500px;">
+            <canvas id="myChart2"></canvas>
+        </div>
     </div>
 </body>
-<!-- SETUP de configuração -->
 <script>
-    // Tela que vamos desenhar o grafico
-    // Criando as informações do grafico eixo x
-    const labels = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-    ];
+    const labelsLinha = ['12:00','13:00','14:00','15:00','16:00','17:00'];
 
-    // Json  
-    const data = {
-        // declarando uma varivel que puxa o valor das labels acima
-        labels: labels,
-        // Declarando um vetor
-        datasets: [{ // Criando linhas de informações
-            label: 'My First dataset',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: [0, 10, 5, 2, 20, 30, 45],
-            },
-            //Criando outra linha de dados
+    const dataLinha = {
+        labels: labelsLinha,
+        datasets: [
             {
-            label: 'My  dataset',
-            backgroundColor: 'rgb(0, 0, 132)',
-            borderColor: 'rgb(0, 0, 132)',
-            data: [10, 10, 5, 20, 15, 30, 40], // cada posição equivale a possição das labels criadas antes
+                label: 'Temperatura',
+                data: [30,29,28,25,22,23],
+                borderColor: '#ff6384',
+                backgroundColor: '#ff6384',
+                tension: 0.3
+            },
+            {
+                label: 'Umidade',
+                data: [80,82,80,85,85,83],
+                borderColor: '#36a2eb',
+                backgroundColor: '#36a2eb',
+                tension: 0.3
             }
-        ]  
+        ]
     };
 
-    // Configurando o grafico
     const config = {
-        type: 'line',   // Definindo o tipo de grafico de linha ou qualquer outro
-        data: data,     // Data/Dados: ele puxa nosso dataset
-        options: {}
+        type: 'line',
+        data: dataLinha,
+        options: {
+            plugins: {
+                legend: {
+                    position: 'top'
+                }
+            }
+        }
+    };
+
+    const labelsBarra = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho'];
+
+    const dataBarra = {
+        labels: labelsBarra,
+        datasets: [
+            {
+                label: 'Temperatura Média',
+                data: [22,24,27,23,20,18],
+                backgroundColor: '#ff6384'
+            },
+            {
+                label: 'Umidade Média',
+                data: [90,89,93,87,88,82],
+                backgroundColor: '#36a2eb'
+            }
+        ]
     };
 
     const config2 = {
-        type: 'bar',   // Definindo o tipo de grafico de linha ou qualquer outro
-        data: data,     // Data/Dados: ele puxa nosso dataset
-        options: {}
+        type: 'bar',
+        data: dataBarra,
+        options: {
+            plugins: {
+                legend: {
+                    position: 'top'
+                }
+            }
+        }
     };
-</script>
-<!-- Renderizando o grafico -->
-<script>
-    // Exibindo o grafico configurado
-    const myChart = new Chart(      // Criando um novo grafico onde
-        document.getElementById('myChart'),     // Onde contem o id myChart
-        config                      // Definindo quais as configurações do nosso grafico
-    );
 
-    const myChart2 = new Chart(      // Criando um novo grafico onde
-        document.getElementById('myChart2'),     // Onde contem o id myChart
-        config2                     // Definindo quais as configurações do nosso grafico
-    );
+    new Chart(document.getElementById('myChart'), config);
+    new Chart(document.getElementById('myChart2'), config2);
 </script>
 </html>
